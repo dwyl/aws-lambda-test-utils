@@ -1,0 +1,27 @@
+{
+  "name": "aws-lambda-test-utils",
+  "version": "1.0.0",
+  "description": "Test your AWS Lambda Functions for reals!",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dwyl/aws-lambda-test-utils.git"
+  },
+  "keywords": [
+    "labmda",
+    "testing",
+    "mock",
+    "context",
+    "event",
+    "aws"
+  ],
+  "author": "Nikhi & Nelson :-)",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/dwyl/aws-lambda-test-utils/issues"
+  },
+  "homepage": "https://github.com/dwyl/aws-lambda-test-utils#readme"
+}
