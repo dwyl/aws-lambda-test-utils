@@ -76,6 +76,8 @@ npm install aws-lambda-test-utils --save-dev
 
 ### Use in your Tests
 
+### Mock Context
+
 An example of using the `mockContextCreator` in an example test.
 
 ```js
@@ -112,9 +114,58 @@ test('LambdaTest', function(t){
   t.end();
 });
 
+```
 
+### Mock Events
+
+This helper can be used to mock event objects created by AWS services like S3, SNS, or DynamoDB.
+
+The following example uses the `mockEventCreator` to create a mock DynamoDB event.
+
+```js
+/* index.js  */
+  'use strict';
+
+  exports.handler = function(event, context) {
+      // receives am event from Dynamo DB
+      context.succeed(event.Records.length);
+  };
+```
+
+
+```js
+'use strict';
+var test               = require('tape');
+var utils              = require('aws-lambda-test-utils')
+var mockContextCreator = utils.mockContextCreator;
+var mockEventCreator   = utils.mockEventCreator;
+var index              = require('./index.js'); // lambda function
+
+var ctxOpts = {
+  functionName: 'LambdaTest',
+  functionVersion: '1',
+  invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
+};
+
+var testEvent = mockEventCreator.createDynamoDBEvent();
+
+test('LambdaTest', function(t){
+  t.test("LambdaTest: returns value when given event with key1 property", function(st) {
+    function test(result){
+      st.equals(result, 1)
+      st.end();
+    };
+    var context = mockContextCreator(ctxOpts, test); // no options and test as the callback
+    index.handler(testEvent, context);
+  });
+});
 ```
 
 ## Background Reading
 
 +
+
+## TODO
+
+* Add options to customise the event objects created by the `mockEventCreator`
+* Add stubs for AWS SDK methods 
