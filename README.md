@@ -2,6 +2,12 @@
 
 Testing your AWS Lambda Functions does not need to be difficult or complex.
 
+[![Build Status](https://travis-ci.org/dwyl/aws-lambda-test-utils.svg?branch=master)](https://travis-ci.org/dwyl/aws-lambda-test-utils)
+[![codecov.io](https://codecov.io/github/dwyl/aws-lambda-test-utils/coverage.svg?branch=master)](https://codecov.io/github/dwyl/aws-lambda-test-utils?branch=master)
+[![Dependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils)
+[![devDependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils/dev-status.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils#info=devDependencies)
+
+
 If you are *new* to Amazon WebServices Lambda
 (*or need a refresher*),
 please checkout our our  
