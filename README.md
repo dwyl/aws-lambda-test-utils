@@ -2,6 +2,12 @@
 
 Testing your AWS Lambda Functions does not need to be difficult or complex.
 
+[![Build Status](https://travis-ci.org/dwyl/aws-lambda-test-utils.svg?branch=master)](https://travis-ci.org/dwyl/aws-lambda-test-utils)
+[![codecov.io](https://codecov.io/github/dwyl/aws-lambda-test-utils/coverage.svg?branch=master)](https://codecov.io/github/dwyl/aws-lambda-test-utils?branch=master)
+[![Dependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils)
+[![devDependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils/dev-status.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils#info=devDependencies)
+
+
 If you are *new* to Amazon WebServices Lambda
 (*or need a refresher*),
 please checkout our our  
@@ -21,50 +27,6 @@ monitoring the result. But this quite slow and *cannot be automated* (*yet*).
 
 The simplest *possilbe* way we could think of for Testing
 our AWS Lambda functions.
-
-The 'context' object has the following form:
-
-```js
-{
-  //methods
-  success,
-  done,
-  fail,
-  getRemainingTimeInMillis,
-
-  //properties
-  functionName,
-  functionVersion,
-  invokedFunctionArn,
-  memoryLimitInMB,
-  awsRequestId,
-  logGroupName,
-  logStreamName,
-  identity: {
-    cognito_identity_id,
-    cognito_identity_pool_id
-  },
-  clientContext: {
-    client: {
-      installation_id,
-      app_title,
-      app_version_name,
-      app_version_code,
-      app_package_name,
-      Custom,
-    },
-    env: {
-      platform_version
-      platform,
-      make,
-      model,
-      locale,
-    }
-  }
-}
-```
-
-The properties of the context object can be specified in an options parameter to the `mockContextCreator` function.  
 
 ## *How*? (*Usage*)
 
@@ -113,7 +75,6 @@ test('LambdaTest', function(t){
   });
   t.end();
 });
-
 ```
 
 ### Mock Events
@@ -159,7 +120,58 @@ test('LambdaTest', function(t){
     index.handler(testEvent, context);
   });
 });
+
+## Documentation
+
+### Lambda Function `event` & `context`
+
+Every AWS Lambda function take two parameters `event` & `context`
+
+### `context`
+
+The 'context' object has the following form:
+
+```js
+{
+  //methods
+  success,
+  done,
+  fail,
+  getRemainingTimeInMillis,
+
+  //properties
+  functionName,
+  functionVersion,
+  invokedFunctionArn,
+  memoryLimitInMB,
+  awsRequestId,
+  logGroupName,
+  logStreamName,
+  identity: {
+    cognito_identity_id,
+    cognito_identity_pool_id
+  },
+  clientContext: {
+    client: {
+      installation_id,
+      app_title,
+      app_version_name,
+      app_version_code,
+      app_package_name,
+      Custom,
+    },
+    env: {
+      platform_version
+      platform,
+      make,
+      model,
+      locale,
+    }
+  }
+}
 ```
+
+The properties of the context object can be specified in an options parameter to the `mockContextCreator` function.  
 
 ## Background Reading
 
@@ -168,4 +180,4 @@ test('LambdaTest', function(t){
 ## TODO
 
 * Add options to customise the event objects created by the `mockEventCreator`
-* Add stubs for AWS SDK methods 
+* Add stubs for AWS SDK methods
