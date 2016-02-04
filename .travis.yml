@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 0.10.36 # http://docs.aws.amazon.com/lambda/latest/dg/current-supported-versions.html
+  - 4.2.6
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov --file coverage/lcov.info --disable search

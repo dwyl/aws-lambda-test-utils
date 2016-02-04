@@ -1,10 +1,12 @@
 {
   "name": "aws-lambda-test-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Test your AWS Lambda Functions for reals!",
   "main": "index.js",
   "scripts": {
-    "test": "tape"
+    "dev": "tape test/*.js",
+    "test": "istanbul cover ./node_modules/tape/bin/tape ./test/*.js",
+    "coverage": "istanbul cover ./node_modules/tape/bin/tape ./test/*.js && istanbul check-coverage --statements 100 --functions 100 --lines 100 --branches 100"
   },
   "repository": {
     "type": "git",
@@ -23,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/dwyl/aws-lambda-test-utils/issues"
   },
-  "homepage": "https://github.com/dwyl/aws-lambda-test-utils#readme"
+  "homepage": "https://github.com/dwyl/aws-lambda-test-utils#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.2",
+    "tape": "^4.4.0"
+  }
 }
