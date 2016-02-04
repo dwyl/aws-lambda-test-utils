@@ -4,7 +4,7 @@
   "description": "Test your AWS Lambda Functions for reals!",
   "main": "index.js",
   "scripts": {
-    "test": "tape"
+    "test": "tape test/*.test.js"
   },
   "repository": {
     "type": "git",

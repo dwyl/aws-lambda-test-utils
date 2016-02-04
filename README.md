@@ -22,6 +22,50 @@ monitoring the result. But this quite slow and *cannot be automated* (*yet*).
 The simplest *possilbe* way we could think of for Testing
 our AWS Lambda functions.
 
+The 'context' object has the following form:
+
+```js
+{
+  //methods
+  success,
+  done,
+  fail,
+  getRemainingTimeInMillis,
+
+  //properties
+  functionName,
+  functionVersion,
+  invokedFunctionArn,
+  memoryLimitInMB,
+  awsRequestId,
+  logGroupName,
+  logStreamName,
+  identity: {
+    cognito_identity_id,
+    cognito_identity_pool_id
+  },
+  clientContext: {
+    client: {
+      installation_id,
+      app_title,
+      app_version_name,
+      app_version_code,
+      app_package_name,
+      Custom,
+    },
+    env: {
+      platform_version
+      platform,
+      make,
+      model,
+      locale,
+    }
+  }
+}
+```
+
+These can be specified in an options parameter.  
+
 ## *How*? (*Usage*)
 
 ### *install* `aws-lambda-test-utils` from NPM
