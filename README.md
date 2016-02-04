@@ -83,8 +83,9 @@ This helper can be used to mock event objects created by AWS services like S3, S
 
 The following example uses the `mockEventCreator` to create a mock DynamoDB event.
 
+
 ```js
-/* index.js  */
+/* index.js Lambda function  */
   'use strict';
 
   exports.handler = function(event, context) {
@@ -95,6 +96,7 @@ The following example uses the `mockEventCreator` to create a mock DynamoDB even
 
 
 ```js
+/* index.test.js  */
 'use strict';
 var test               = require('tape');
 var utils              = require('aws-lambda-test-utils')
@@ -120,6 +122,7 @@ test('LambdaTest', function(t){
     index.handler(testEvent, context);
   });
 });
+```
 
 ## Documentation
 
