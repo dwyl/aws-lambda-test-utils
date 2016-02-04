@@ -90,6 +90,7 @@ var ctxOpts = {
   functionVersion: '1',
   invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
 };
+var testEvent = { key1: 'value1' };
 
 test('LambdaTest', function(t){
   t.test("LambdaTest: returns value when given event with key1 property", function(st) {
@@ -98,16 +99,15 @@ test('LambdaTest', function(t){
       st.end();
     };
     var context = mockContextCreator({}, test); // no options and test as the callback
-    index.handler({ key1: 'value1'}, context);
+    index.handler(testEvent, context);
   });
-  t.end();
   t.test("LambdaTest: returns value when given event with key1 property", function(st) {
     function test(result){
       st.equals(result, "value1")
       st.end();
     };
     var context = mockContextCreator(ctxOpts, test); // context options specified and test as the callback
-    index.handler({ key1: 'value1'}, context);
+    index.handler(testEvent, context);
   });
   t.end();
 });

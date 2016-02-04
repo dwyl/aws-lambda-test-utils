@@ -5,9 +5,9 @@
  */
 
 var mockContextCreator = require('./mockContext.js');
-// var mockEventCreator   = require('./mockEvent')
+var mockEventCreator   = require('./mockEvent')
 
 module.exports = {
   mockContextCreator: mockContextCreator,
-  // mockEventCreator: mockEventCreator
+  mockEventCreator: mockEventCreator
 }
