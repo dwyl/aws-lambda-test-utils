@@ -7,6 +7,7 @@ Testing your AWS Lambda Functions does not need to be difficult or complex.
 [![Dependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils)
 [![devDependency Status](https://david-dm.org/dwyl/aws-lambda-test-utils/dev-status.svg)](https://david-dm.org/dwyl/aws-lambda-test-utils#info=devDependencies)
 
+[![NPM](https://nodei.co/npm-dl/aws-lambda-test-utils.png?months=3)](https://nodei.co/npm/aws-lambda-test-utils/)
 
 If you are *new* to Amazon WebServices Lambda
 (*or need a refresher*),
