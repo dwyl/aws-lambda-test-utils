@@ -22,6 +22,55 @@ monitoring the result. But this quite slow and *cannot be automated* (*yet*).
 The simplest *possilbe* way we could think of for Testing
 our AWS Lambda functions.
 
+## *How*? (*Usage*)
+
+### *install* `aws-lambda-test-utils` from NPM
+
+```sh
+npm install aws-lambda-test-utils --save-dev
+```
+
+### Use in your Tests
+
+An example of using the `mockContextCreator` in an example test.
+
+```js
+'use strict';
+var test               = require('tape');
+var utils              = require('aws-lambda-test-utils')
+var mockContextCreator = utils.mockContextCreator;
+var index              = require('./index.js'); // lambda function
+
+var ctxOpts = {
+  functionName: 'LambdaTest',
+  functionVersion: '1',
+  invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
+};
+var testEvent = { key1: 'value1' };
+
+test('LambdaTest', function(t){
+  t.test("LambdaTest: returns value when given event with key1 property", function(st) {
+    function test(result){
+      st.equals(result, "value1")
+      st.end();
+    };
+    var context = mockContextCreator({}, test); // no options and test as the callback
+    index.handler(testEvent, context);
+  });
+  t.test("LambdaTest: returns value when given event with key1 property", function(st) {
+    function test(result){
+      st.equals(result, "value1")
+      st.end();
+    };
+    var context = mockContextCreator(ctxOpts, test); // context options specified and test as the callback
+    index.handler(testEvent, context);
+  });
+  t.end();
+});
+```
+
+## Documentation
+
 ### Lambda Function `event` & `context`
 
 Every AWS Lambda function take two parameters `event` & `context`
@@ -70,19 +119,7 @@ The 'context' object has the following form:
 }
 ```
 
-These can be specified in an options parameter.  
-
-## *How*? (*Usage*)
-
-### *install* `aws-lambda-test-utils` from NPM
-
-```sh
-npm install aws-lambda-test-utils --save-dev
-```
-
-### Use in your Tests
-
-
+The properties of the context object can be specified in an options parameter to the `mockContextCreator` function.  
 
 ## Background Reading
 
