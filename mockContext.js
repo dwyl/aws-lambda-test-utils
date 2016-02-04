@@ -1,6 +1,6 @@
 'use strict';
 /**
-* Mock Context object for testing. Takes a callback function which will be called with the value passed into
+* Mock Context object for testing. Takes an options object and a callback function. The callback will be called with the value passed into
 * the context method.
 *
 * Example usage in a test:
@@ -15,13 +15,13 @@
 *        expect(result).to.equal("value1")
 *        done();
 *      };
-*      var context = contextCreator(test); // pass in the test as the callback
+*      var context = contextCreator({}, test); // pass in the test as the callback
 *      Handler(testEvent, context);
 *    });
 *
 **/
 
-module.exports = function (cb) {
+module.exports = function (options, cb) {
   return {
     succeed: function (result) {
       if (result === undefined) {
@@ -48,8 +48,14 @@ module.exports = function (cb) {
         return this.succeed(result);
       }
     },
-    functionName: 'LambdaTest',
-    functionVersion: 1,
-    invokedFunctionArn: 'arn:aws:lambda:eu-west-1:645246713457:function:LambdaTest:ci'
+    functionName:       options.functionName       || "",
+    functionVersion:    options.functionVersion    || "",
+    invokedFunctionArn: options.invokedFunctionArn || "",
+    memoryLimitInMB:    options.memoryLimitInMB    || "",
+    awsRequestId:       options.awsRequestId       || "",
+    logGroupName:       options.logGroupName       || "",
+    logStreamName:      options.logStreamName      || "",
+    identity:           options.identity           || {},
+    clientContext:      options.clientContext      || {},
   };
 };
