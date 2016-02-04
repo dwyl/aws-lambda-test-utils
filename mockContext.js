@@ -1,23 +1,10 @@
 'use strict';
 /**
-* Mock Context object for testing. Takes an options object and a callback function. The callback will be called with the value passed into
-* the context method.
+* Function that returns a mock context object for testing AWS Lambda functions
 *
-* Example usage in a test:
-*
-*  var contextCreator      = require('./utils/mockContext.js');
-*  var testEvent           = { key1: 'value1'}
-*
-*  describe('LambdaTest', function(){
-*    it("LambdaTest: returns value when given event with key1 property", function(done) {
-*
-*      function test(result){
-*        expect(result).to.equal("value1")
-*        done();
-*      };
-*      var context = contextCreator({}, test); // pass in the test as the callback
-*      Handler(testEvent, context);
-*    });
+* @param {object} - options: object with context properties
+* @param {function} - callback function to be called with the value passed into any of the context methods.
+*                   - the callback should contain the test assertions.
 *
 **/
 

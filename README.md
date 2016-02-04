@@ -64,7 +64,7 @@ The 'context' object has the following form:
 }
 ```
 
-These can be specified in an options parameter.  
+The properties of the context object can be specified in an options parameter to the `mockContextCreator` function.  
 
 ## *How*? (*Usage*)
 
@@ -76,7 +76,44 @@ npm install aws-lambda-test-utils --save-dev
 
 ### Use in your Tests
 
+An example of using the `mockContextCreator` in an example test.
 
+```js
+'use strict';
+var test               = require('tape');
+var utils              = require('aws-lambda-test-utils')
+var mockContextCreator = utils.mockContextCreator;
+var index              = require('./index.js'); // lambda function
+
+var ctxOpts = {
+  functionName: 'LambdaTest',
+  functionVersion: '1',
+  invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
+};
+
+test('LambdaTest', function(t){
+  t.test("LambdaTest: returns value when given event with key1 property", function(st) {
+    function test(result){
+      st.equals(result, "value1")
+      st.end();
+    };
+    var context = mockContextCreator({}, test); // no options and test as the callback
+    index.handler({ key1: 'value1'}, context);
+  });
+  t.end();
+  t.test("LambdaTest: returns value when given event with key1 property", function(st) {
+    function test(result){
+      st.equals(result, "value1")
+      st.end();
+    };
+    var context = mockContextCreator(ctxOpts, test); // context options specified and test as the callback
+    index.handler({ key1: 'value1'}, context);
+  });
+  t.end();
+});
+
+
+```
 
 ## Background Reading
 
