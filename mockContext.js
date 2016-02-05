@@ -35,6 +35,13 @@ module.exports = function (options, cb) {
         return this.succeed(result);
       }
     },
+    getRemainingTimeInMillis: function() {
+      if (typeof this.timeInMillis !== 'number') {
+        return 0;
+      } else {
+        return this.timeInMillis;
+      }
+    },
     functionName:       options.functionName       || "",
     functionVersion:    options.functionVersion    || "",
     invokedFunctionArn: options.invokedFunctionArn || "",
@@ -44,5 +51,6 @@ module.exports = function (options, cb) {
     logStreamName:      options.logStreamName      || "",
     identity:           options.identity           || {},
     clientContext:      options.clientContext      || {},
+    timeInMillis:       options.timeInMillis       || 0
   };
 };

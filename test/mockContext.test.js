@@ -9,7 +9,7 @@ var ctxOpts = {
   functionVersion: 1,
   invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
 };
-var contextObjectKeys = [ 'succeed', 'fail', 'done', 'functionName', 'functionVersion', 'invokedFunctionArn', 'memoryLimitInMB', 'awsRequestId', 'logGroupName', 'logStreamName', 'identity', 'clientContext' ];
+var contextObjectKeys = [ 'succeed', 'fail', 'done', 'getRemainingTimeInMillis', 'functionName', 'functionVersion', 'invokedFunctionArn', 'memoryLimitInMB', 'awsRequestId', 'logGroupName', 'logStreamName', 'identity', 'clientContext', 'timeInMillis'];
 
 
 test('mockContextCreator:', function(t) {
@@ -97,5 +97,19 @@ test('Context methods', function(t) {
     var context = mockContextCreator(ctxOpts, test);
     context.done("Error");
   });
+  t.test('context.getRemainingTimeInMillis: return the correct time', function(st) {
+    function callBack() {};
+    ctxOpts.timeInMillis = 100;
+    var context = mockContextCreator(ctxOpts, callBack);
+    st.equal(context.getRemainingTimeInMillis(), 100);
+    st.end()
+  });
+  t.test('context.getRemainingTimeInMillis: returns 0 when timeInMillis is not sepcified', function(st) {
+    function callBack() {};
+    ctxOpts.timeInMillis = '0';
+    var context = mockContextCreator(ctxOpts, callBack);
+    st.equal(context.getRemainingTimeInMillis(), 0);
+    st.end();
+  })
   t.end();
 })
