@@ -106,7 +106,6 @@ test('Context methods', function(t) {
   });
   t.test('context.getRemainingTimeInMillis: returns 0 when timeInMillis is not sepcified', function(st) {
     function callBack() {};
-    function callBack() {};
     ctxOpts.timeInMillis = 0;
     var context = mockContextCreator(ctxOpts, callBack);
     st.equal(0, context.getRemainingTimeInMillis());
