@@ -13,7 +13,7 @@
     "url": "git+https://github.com/dwyl/aws-lambda-test-utils.git"
   },
   "keywords": [
-    "labmda",
+    "lambda",
     "testing",
     "mock",
     "context",
