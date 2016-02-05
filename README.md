@@ -17,8 +17,7 @@ https://github.com/dwyl/learn-aws-lambda
 
 ## Why?
 
-Testing your code is *essential* everywhere you need *reliability*.
-
+Testing your code is *essential* everywhere you need *reliability*. 
 
 AWS Lambda has a **Testing _Console_** which is a *web-based*
 way of invoking your function(s) with a given input and

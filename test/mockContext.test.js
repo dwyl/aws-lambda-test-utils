@@ -101,14 +101,14 @@ test('Context methods', function(t) {
     function callBack() {};
     ctxOpts.timeInMillis = 100;
     var context = mockContextCreator(ctxOpts, callBack);
-    st.equal(100, context.getRemainingTimeInMillis());
+    st.equal(context.getRemainingTimeInMillis(), 100);
     st.end()
   });
   t.test('context.getRemainingTimeInMillis: returns 0 when timeInMillis is not sepcified', function(st) {
     function callBack() {};
-    ctxOpts.timeInMillis = 0;
+    delete ctxOpts.timeInMillis;
     var context = mockContextCreator(ctxOpts, callBack);
-    st.equal(0, context.getRemainingTimeInMillis());
+    st.equal(context.getRemainingTimeInMillis(), 0);
     st.end();
   })
   t.end();
