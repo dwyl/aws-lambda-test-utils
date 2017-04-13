@@ -1,14 +1,6 @@
 'use strict';
 /**
 * Functions that return mock AWS event object for testing AWS Lambda functions;
-*
-* TODO: Add options object to each function and return appropriate event object e.g. 
-*
-*  {
-*    awsRegion: defaults to eu-west-1
-*    events: [] array of objects e.g. { type: 'INSERT', number: 2 },
-*    eventSourceARN: defaults to "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899"
-*  }
 **/
 
 module.exports = {
@@ -17,37 +9,61 @@ module.exports = {
   createSNSEvent:      createSNSEvent,
 }
 
-function createDynamoDBEvent(){
+function createDynamoDBEvent(options){
+  var options = setDefaults(options);
+  var dynamoEvent = options.events.reduce(function(obj, curr) {
+    for (var i = 0; i < curr.number; i++) {
+      obj.Records.push(createDynamoDBRecord(curr.type, options));
+    };
+    return obj;
+  }, {"Records": []});
+
+  return dynamoEvent;
+}
+
+function createDynamoDBRecord(type, options) {
   return {
-    "Records": [
-      {
-        "eventID": "1",
-        "eventVersion": "1.0",
-        "dynamodb": {
-          "Keys": {
-            "Id": {
-              "N": "101"
-            }
-          },
-          "NewImage": {
-            "Message": {
-              "S": "New item!"
-            },
-            "Id": {
-              "N": "101"
-            }
-          },
-          "StreamViewType": "NEW_AND_OLD_IMAGES",
-          "SequenceNumber": "111",
-          "SizeBytes": 26
-        },
-        "awsRegion": "us-west-2",
-        "eventName": "INSERT",
-        "eventSourceARN": "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899",
-        "eventSource": "aws:dynamodb"
+    "eventID": "1",
+    "eventVersion": "1.0",
+    "dynamodb": {
+      "Keys": {
+        "Id": {
+          "N": "101"
+        }
       },
-    ]
+      "NewImage": {
+        "Message": {
+          "S": "New item!"
+        },
+        "Id": {
+          "N": "101"
+        }
+      },
+      "StreamViewType": "NEW_AND_OLD_IMAGES",
+      "SequenceNumber": "111",
+      "SizeBytes": 26
+    },
+    "awsRegion": options.awsRegion,
+    "eventName": type,
+    "eventSourceARN": options.eventSourceARN,
+    "eventSource": "aws:dynamodb"
   }
+}
+
+function setDefaults(options) {
+  var defaultOptions = {
+    awsRegion: "eu-west-1",
+    eventSourceARN: "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899",
+    events: [{type: "INSERT", number: 1}]
+  };
+
+  if (typeof options !== "object") {
+    return defaultOptions;
+  }
+  return Object.keys(defaultOptions).reduce(function(options, curr) {
+    options[curr] = options[curr] ? options[curr] : defaultOptions[curr]
+    return options;
+  }, options);
 }
 
 function createSNSEvent () {
@@ -114,7 +130,7 @@ function createS3Event() {
           "x-amz-id-2": "EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH",
           "x-amz-request-id": "EXAMPLE123456789"
         },
-        "awsRegion": "us-east-1",
+        "awsRegion": "eu-west-1",
         "eventName": "ObjectCreated:Put",
         "userIdentity": {
           "principalId": "EXAMPLE"
