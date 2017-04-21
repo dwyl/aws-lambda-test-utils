@@ -10,7 +10,7 @@ module.exports = {
 }
 
 function createDynamoDBEvent(options){
-  var options = setDefaults(options);
+  var options = setDefaults(options, "dynamo");
   var dynamoEvent = options.events.reduce(function(obj, curr) {
     for (var i = 0; i < curr.number; i++) {
       obj.Records.push(createDynamoDBRecord(curr.type, options));
@@ -50,23 +50,31 @@ function createDynamoDBRecord(type, options) {
   }
 }
 
-function setDefaults(options) {
+function setDefaults(options, type) {
   var defaultOptions = {
-    awsRegion: "eu-west-1",
-    eventSourceARN: "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899",
-    events: [{type: "INSERT", number: 1}]
+    dynamo: {
+      awsRegion: "eu-west-1",
+      eventSourceARN: "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899",
+      events: [{type: "INSERT", number: 1}]
+    },
+    sns: {
+      message: "default test message"
+    }
   };
 
   if (typeof options !== "object") {
-    return defaultOptions;
+    return defaultOptions[type];
   }
-  return Object.keys(defaultOptions).reduce(function(options, curr) {
-    options[curr] = options[curr] ? options[curr] : defaultOptions[curr]
+  return Object.keys(defaultOptions[type]).reduce(function(options, curr) {
+    options[curr] = options[curr] ? options[curr] : defaultOptions[type][curr]
     return options;
   }, options);
 }
 
-function createSNSEvent () {
+function createSNSEvent (options) {
+  var options = setDefaults(options, "sns");
+  options.message = typeof options.message === "string" ? options.message : JSON.stringify(options.message);
+  
   return  {
     "Records": [
       {
@@ -79,7 +87,7 @@ function createSNSEvent () {
           "Signature": "EXAMPLE",
           "SigningCertUrl": "EXAMPLE",
           "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
-          "Message": "Hello from SNS!",
+          "Message": options.message,
           "MessageAttributes": {
             "Test": {
               "Type": "String",
