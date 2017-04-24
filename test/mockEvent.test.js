@@ -39,7 +39,34 @@ test('mockEventCreator - createSNSEvent', function(t) {
     var SNSEvent = mockEventCreator.createSNSEvent();
     st.equals(SNSEvent.Records.length, 1, "event should contain 1 Record");
     st.equals(SNSEvent.Records[0].Sns.TopicArn, "arn:aws:sns:EXAMPLE");
-    st.equals(SNSEvent.Records[0].Sns.Message, "Hello from SNS!");
+    st.equals(SNSEvent.Records[0].Sns.Message, "default test message");
+    st.end();
+  });
+  t.end();
+});
+
+test('mockEventCreator - createSNSEvent', function(t) {
+  t.test('options with string message: returns an object with 1 SNS Record, with the custom Message', function(st) {
+    var SNSEvent = mockEventCreator.createSNSEvent({message: "custom message"});
+    st.equals(SNSEvent.Records.length, 1, "event should contain 1 Record");
+    st.equals(SNSEvent.Records[0].Sns.TopicArn, "arn:aws:sns:EXAMPLE");
+    st.equals(SNSEvent.Records[0].Sns.Message, "custom message");
+    st.end();
+  });
+  t.end();
+});
+test('mockEventCreator - createSNSEvent', function(t) {
+  var message = {
+    nested: {
+      object: "test string"
+    }
+  };
+
+  t.test('options with object message: returns an object with 1 SNS Record, with the custom Message', function(st) {
+    var SNSEvent = mockEventCreator.createSNSEvent({message: message});
+    st.equals(SNSEvent.Records.length, 1, "event should contain 1 Record");
+    st.equals(SNSEvent.Records[0].Sns.TopicArn, "arn:aws:sns:EXAMPLE");
+    st.equals(SNSEvent.Records[0].Sns.Message, JSON.stringify(message));
     st.end();
   });
   t.end();

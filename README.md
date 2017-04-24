@@ -96,22 +96,25 @@ Creates a mock DynamoDB event.
 var utils = require('aws-lambda-test-utils');
 var dynamoEvent = utils.mockEventCreator.createDynamoDBEvent();
 
-```
-
-Default options (which can be overridden):
-```
+// Default options (which can be overridden):
 {
   awsRegion: "eu-west-1",
   eventSourceARN: "arn:aws:dynamodb:us-west-2:account-id:table/ExampleTableWithStream/stream/2015-06-27T00:48:05.899",
   events: [{type: "INSERT", number: 1}]
 };
+
 ```
 
-#### `createSNSEvent()`
+#### `createSNSEvent(options)`
 
 ```js
 var utils = require('aws-lambda-test-utils');
 var dynamoEvent = utils.mockEventCreator.createSNSEvent();
+
+// Default options (which can be overridden):
+{
+  message: "default test message"
+};
 
 ```
 
