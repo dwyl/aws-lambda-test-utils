@@ -82,3 +82,24 @@ test('mockEventCreator - createS3Event', function(t) {
   });
   t.end();
 });
+
+test('mockEventCreator - createAPIGatewayEvent', function(t) {
+  t.test('no options: returns an object with default api gateway values', function(st) {
+    var APIGatewayEvent = mockEventCreator.createAPIGatewayEvent();
+    st.equals(APIGatewayEvent.httpMethod, "GET", "event method should be GET");
+    st.equals(APIGatewayEvent.body, "default body", "event body should be 'default body'");
+    st.end()
+  });
+  t.test('options with body and stageVariables: returns an object with custom body and stageVariables', function(st) {
+    var options = {
+      stageVariables: { ENV: "DEV", API_URL: 'http://api.url'},
+      body: "i am a custom body"
+    }
+    var APIGatewayEvent = mockEventCreator.createAPIGatewayEvent(options);
+
+    st.deepEquals(APIGatewayEvent.stageVariables, options.stageVariables, "event stageVariables should be custom stageVariables ");
+    st.equals(APIGatewayEvent.body, options.body, "event body should be custom body");
+    st.end()
+  });
+  t.end();
+});
