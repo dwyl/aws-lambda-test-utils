@@ -125,6 +125,32 @@ var utils = require('aws-lambda-test-utils');
 var dynamoEvent = utils.mockEventCreator.createS3Event();
 
 ```
+#### `createAPIGatewayEvent(options)`
+
+```js
+var utils = require('aws-lambda-test-utils');
+var APIGatewayEvent = utils.mockEventCreator.createAPIGatewayEvent();
+
+// Default options (which can be overridden):
+{
+  path: "default/path",
+  method: "GET",
+  headers: {
+    "default-header": 'default'
+  },
+  queryStringParameters: {
+    query: "default"
+  },
+  pathParameters: {
+    uuid: '1234'
+  },
+  stageVariables: {
+    ENV: "test"
+  },
+  body: "default body"
+}
+
+```
 
 
 ## Documentation

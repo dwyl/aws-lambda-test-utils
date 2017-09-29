@@ -4,9 +4,10 @@
 **/
 
 module.exports = {
-  createS3Event:       createS3Event,
+  createS3Event: createS3Event,
   createDynamoDBEvent: createDynamoDBEvent,
-  createSNSEvent:      createSNSEvent,
+  createSNSEvent: createSNSEvent,
+  createAPIGatewayEvent: createAPIGatewayEvent
 }
 
 function createDynamoDBEvent(options){
@@ -59,6 +60,23 @@ function setDefaults(options, type) {
     },
     sns: {
       message: "default test message"
+    },
+    "api-gateway": {
+      path: "default/path",
+      method: "GET",
+      headers: {
+        "default-header": 'default'
+      },
+      queryStringParameters: {
+        query: "default"
+      },
+      pathParameters: {
+        uuid: '1234'
+      },
+      stageVariables: {
+        ENV: "test"
+      },
+      body: "default body"
     }
   };
 
@@ -74,7 +92,7 @@ function setDefaults(options, type) {
 function createSNSEvent (options) {
   var options = setDefaults(options, "sns");
   options.message = typeof options.message === "string" ? options.message : JSON.stringify(options.message);
-  
+
   return  {
     "Records": [
       {
@@ -148,3 +166,42 @@ function createS3Event() {
     ]
   }
 }
+
+function createAPIGatewayEvent(options) {
+  var options = setDefaults(options, "api-gateway");
+
+  return {
+    "resource": "/assets",
+    "path": options.path,
+    "httpMethod": options.method,
+    "headers": options.headers,
+    "queryStringParameters": options.queryStringParameters,
+    "pathParameters": options.pathParameters,
+    "stageVariables": options.stageVariables,
+    "requestContext": {
+      "accountId": "1234",
+      "resourceId": "snmm5d",
+      "stage": "test-invoke-stage",
+      "requestId": "test-invoke-request",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": "1234",
+        "cognitoIdentityId": null,
+        "caller": "1234",
+        "apiKey": "test-invoke-api-key",
+        "sourceIp": "test-invoke-source-ip",
+        "accessKey": "1234",
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": "arn:aws:iam::1234:user/test_user",
+        "userAgent": "Apache-HttpClient/4.5.x (Java/1.8.0)",
+        "user": "1234"
+      },
+      "resourcePath": options.path,
+      "httpMethod": options.method,
+      "apiId": "1234"
+    },
+    "body": options.body,
+    "isBase64Encoded": false
+  }
+};
